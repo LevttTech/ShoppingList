@@ -4,23 +4,35 @@ import com.wapp.shoppinglist.domain.model.ShopItem
 import com.wapp.shoppinglist.domain.repository.ShopListRepository
 
 object ShopListRepositoryImpl : ShopListRepository {
+    private val shopList = mutableListOf<ShopItem>()
+    private var autoIncrementId = 0
+
     override fun addShopItem(shopItem: ShopItem) {
-        TODO("Not yet implemented")
+        if(shopItem.id == ShopItem.UNDEFINED_ID) {
+            shopItem.id = autoIncrementId++
+        }
+        shopList.add(shopItem)
     }
 
     override fun deleteShopItem(shopItemId: Int) {
-        TODO("Not yet implemented")
+        val item = shopList.find { it.id == shopItemId }
+            ?: throw NoSuchElementException("Shop item with id $shopItemId not found")
+        shopList.remove(item)
     }
 
     override fun editShopItem(shopItem: ShopItem) {
-        TODO("Not yet implemented")
+        val oldElement = getShopItem(shopItem.id)
+        shopList.remove(oldElement)
+        addShopItem(shopItem)
     }
 
     override fun getShopItem(shopItemId: Int): ShopItem {
-        TODO("Not yet implemented")
+        return shopList.find {
+            it.id == shopItemId
+        } ?: throw NoSuchElementException("Element with id $shopItemId not found")
     }
 
     override fun getShopList(): List<ShopItem> {
-        TODO("Not yet implemented")
+        return shopList
     }
 }
