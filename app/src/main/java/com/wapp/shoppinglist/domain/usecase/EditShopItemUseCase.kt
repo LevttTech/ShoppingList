@@ -4,5 +4,5 @@ import com.wapp.shoppinglist.domain.model.ShopItem
 
 class EditShopItemUseCase {
 
-    fun editShopItemUseCase(shopItem: ShopItem) {}
+    fun editShopItem(shopItem: ShopItem) {}
 }
