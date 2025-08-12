@@ -1,4 +1,4 @@
-package com.wapp.shoppinglist.presentation
+package com.wapp.shoppinglist.presentation.activity
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.wapp.shoppinglist.R
+import com.wapp.shoppinglist.presentation.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getShopList().observe(this) {
             Log.d(TAG,it.toString())
-            viewModel.deleteShopItem(it[0].id)
+            viewModel.(it[0].id)
         }
 
         viewModel.getShopList()

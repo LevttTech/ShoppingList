@@ -49,6 +49,6 @@ object ShopListRepositoryImpl : ShopListRepository {
         return shopListLD
     }
     private fun updateLiveData() {
-        shopListLD.value = shopList // Создаем копию списка
+        shopListLD.value = shopList
     }
 }
