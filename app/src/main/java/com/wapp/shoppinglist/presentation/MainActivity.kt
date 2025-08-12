@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel.shopList.observe(this) {
+        viewModel.getShopList().observe(this) {
             Log.d(TAG,it.toString())
             viewModel.deleteShopItem(it[0].id)
         }

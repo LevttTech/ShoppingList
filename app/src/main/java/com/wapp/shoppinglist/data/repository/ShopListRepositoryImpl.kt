@@ -22,18 +22,21 @@ object ShopListRepositoryImpl : ShopListRepository {
             shopItem.id = autoIncrementId++
         }
         shopList.add(shopItem)
+        updateLiveData()
     }
 
     override fun deleteShopItem(shopItemId: Int) {
         val item = shopList.find { it.id == shopItemId }
             ?: throw NoSuchElementException("Shop item with id $shopItemId not found")
         shopList.remove(item)
+        updateLiveData()
     }
 
     override fun editShopItem(shopItem: ShopItem) {
         val oldElement = getShopItem(shopItem.id)
         shopList.remove(oldElement)
         addShopItem(shopItem)
+        updateLiveData()
     }
 
     override fun getShopItem(shopItemId: Int): ShopItem {
@@ -43,7 +46,9 @@ object ShopListRepositoryImpl : ShopListRepository {
     }
 
     override fun getShopList(): LiveData<List<ShopItem>> {
-        shopListLD.value = shopList
         return shopListLD
+    }
+    private fun updateLiveData() {
+        shopListLD.value = shopList // Создаем копию списка
     }
 }
