@@ -1,10 +1,13 @@
 package com.wapp.shoppinglist.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.wapp.shoppinglist.domain.model.ShopItem
 import com.wapp.shoppinglist.domain.repository.ShopListRepository
 
 object ShopListRepositoryImpl : ShopListRepository {
     private val shopList = mutableListOf<ShopItem>()
+    private val shopListLD = MutableLiveData<List<ShopItem>>();
     private var autoIncrementId = 0
 
     override fun addShopItem(shopItem: ShopItem) {
@@ -32,7 +35,8 @@ object ShopListRepositoryImpl : ShopListRepository {
         } ?: throw NoSuchElementException("Element with id $shopItemId not found")
     }
 
-    override fun getShopList(): List<ShopItem> {
-        return shopList.toList()
+    override fun getShopList(): LiveData<List<ShopItem>> {
+        shopListLD.value = shopList
+        return shopListLD
     }
 }
