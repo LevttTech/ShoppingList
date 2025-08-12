@@ -9,4 +9,10 @@ data class ShopItem (
     companion object {
         const val UNDEFINED_ID = -1
     }
+
+    override fun toString(): String {
+        return "ShopItem(name='$name', count=$count, enabled=$enabled, id=$id)"
+    }
+
+
 }

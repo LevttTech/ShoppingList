@@ -10,7 +10,7 @@ object ShopListRepositoryImpl : ShopListRepository {
     init {
         for (i in 0 until 10) {
             val item = ShopItem("name $i",i,true)
-            shopList.add(item)
+            addShopItem(item)
         }
     }
 

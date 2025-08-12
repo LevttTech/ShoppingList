@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG,"onCreate()")
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
@@ -24,9 +25,13 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.shopList.observe(this) {
-            Log.d("MainActivity",it.toString())
+            Log.d(TAG,it.toString())
+            viewModel.deleteShopItem(it[0].id)
         }
 
         viewModel.getShopList()
+    }
+    companion object {
+        const val TAG = "MainActivity"
     }
 }
