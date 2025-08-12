@@ -1,5 +1,6 @@
 package com.wapp.shoppinglist.domain.repository
 
+import androidx.lifecycle.LiveData
 import com.wapp.shoppinglist.domain.model.ShopItem
 
 interface ShopListRepository {
@@ -7,5 +8,5 @@ interface ShopListRepository {
     fun deleteShopItem(shopItemId: Int)
     fun editShopItem(shopItem: ShopItem)
     fun getShopItem(shopItemId: Int): ShopItem
-    fun getShopList(): List<ShopItem>
+    fun getShopList(): LiveData<List<ShopItem>>
 }
