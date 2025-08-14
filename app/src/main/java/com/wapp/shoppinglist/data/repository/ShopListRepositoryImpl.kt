@@ -1,18 +1,22 @@
 package com.wapp.shoppinglist.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.wapp.shoppinglist.domain.model.ShopItem
 import com.wapp.shoppinglist.domain.repository.ShopListRepository
+import kotlin.random.Random
 
 object ShopListRepositoryImpl : ShopListRepository {
-    private val shopList = mutableListOf<ShopItem>()
+    private val shopList = sortedSetOf<ShopItem>({o1,o2 -> o1.id.compareTo(o2.id)})
     private val shopListLD = MutableLiveData<List<ShopItem>>();
     private var autoIncrementId = 0
 
+    private val TAG = "ShopListRepository"
+
     init {
         for (i in 0 until 10) {
-            val item = ShopItem("name $i",i,true)
+            val item = ShopItem("name $i",i,Random.nextBoolean())
             addShopItem(item)
         }
     }
@@ -22,21 +26,20 @@ object ShopListRepositoryImpl : ShopListRepository {
             shopItem.id = autoIncrementId++
         }
         shopList.add(shopItem)
-        updateLiveData()
+        upd()
     }
 
     override fun deleteShopItem(shopItemId: Int) {
         val item = shopList.find { it.id == shopItemId }
             ?: throw NoSuchElementException("Shop item with id $shopItemId not found")
         shopList.remove(item)
-        updateLiveData()
+        upd()
     }
 
     override fun editShopItem(shopItem: ShopItem) {
         val oldElement = getShopItem(shopItem.id)
         shopList.remove(oldElement)
         addShopItem(shopItem)
-        updateLiveData()
     }
 
     override fun getShopItem(shopItemId: Int): ShopItem {
@@ -48,7 +51,8 @@ object ShopListRepositoryImpl : ShopListRepository {
     override fun getShopList(): LiveData<List<ShopItem>> {
         return shopListLD
     }
-    private fun updateLiveData() {
-        shopListLD.value = shopList
+
+    fun upd() {
+      shopListLD.value = shopList.toList()
     }
 }
