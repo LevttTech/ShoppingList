@@ -55,4 +55,5 @@ object ShopListRepositoryImpl : ShopListRepository {
     fun upd() {
       shopListLD.value = shopList.toList()
     }
+
 }
